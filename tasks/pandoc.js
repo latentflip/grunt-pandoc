@@ -11,17 +11,24 @@
 module.exports = function(grunt) {
   var childproc = require("child_process"),
       util      = require("./util"),
-      PandocRun = require("./PandocRun");
+      PandocRun = require("./PandocRun"),
+      path      = require("path");
+
 
   grunt.registerMultiTask('pandoc', 'running pandoc process.', function() {
     var exec = [],
         done = this.async(),
+        outputFilename,
         pandoc,
         i, iz,
         success = [];
 
+    outputFilename = (this.data["options"] && this.data["options"].output) || this.target;
+    
+    grunt.file.mkdir(path.dirname(outputFilename));
+
     pandoc = new PandocRun(
-      this.target,          // Output FileName
+      outputFilename,
       this.data["configs"], // Configs
       this.data["files"]    // Convert File Paths.
     );
