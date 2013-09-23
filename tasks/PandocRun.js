@@ -70,6 +70,13 @@ module.exports = (function () {
       _exec.push("-o " + conf.target + ".epub");
       _exec.push("--epub-metadata="   + conf.metadata);
       _exec.push("--epub-stylesheet=" + conf.stylesheet);
+      if (conf['cover-image'])
+        _exec.push("--epub-cover-image=" + conf['cover-image']);
+      
+      (conf["switches"]).forEach(function (sw) {
+        _exec.push(sw);
+      });
+
       _exec.push(this.files["chapters"].join(" "));
 
       exec.push(_exec.join(" "));
